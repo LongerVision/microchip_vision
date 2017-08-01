@@ -9,6 +9,7 @@ import cv2
 import argparse
 import numpy as np
 from operator import xor
+from PyQt5 import QtWidgets
 
 boundaries = [
     ([8.5, 100, 100], [23, 255, 255], "orange"),
@@ -23,15 +24,27 @@ boundaries = [
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-def main(seperate,contour):
+def main(seperate, contour, fullscreen=False):
 
     camera = cv2.VideoCapture(0)
 
     # can you say unstable API?
     if hasattr(cv2, 'cv'):
+        if fullscreen:
+            cv2.namedWindow("images", cv2.cv.CV_WINDOW_NORMAL | cv2.cv.CV_WINDOW_KEEPRATIO)
+            cv2.setWindowProperty("images", cv2.cv.CV_WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
+            geometry = QtWidgets.QDesktopWidget().screenGeometry(-1)
+            cv2.resizeWindow("images", geometry.width(), geometry.height())
+
         camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 320)
         camera.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 240)
     else:
+        if fullscreen:
+            cv2.namedWindow("images", cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
+            cv2.setWindowProperty("images", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+            geometry = QtWidgets.QDesktopWidget().screenGeometry(-1)
+            cv2.resizeWindow("images", geometry.width(), geometry.height())
+
         camera.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
         camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 
@@ -84,7 +97,12 @@ def main(seperate,contour):
             else:
                 cv2.imshow("images", np.hstack([image, black]))
 
-        if cv2.waitKey(10) & 0xFF is ord('q'):
+        cv2.setWindowProperty("images", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
+        key = cv2.waitKey(10) & 0xFF
+        if key is ord('q'):
+            break
+        elif key is ord('0'):
             break
 
 
@@ -96,5 +114,8 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--seperate',
                         help='Seperate video feed and color mask images',
                         action='store_true')
+    parser.add_argument('-f', '--fullscreen',
+                        help='Show window in fullscreen mode',
+                        action='store_true')
     args = parser.parse_args()
-    main(args.seperate,args.contour)
+    main(args.seperate, args.contour, args.fullscreen)
