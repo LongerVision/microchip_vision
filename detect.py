@@ -8,7 +8,7 @@
 import cv2
 import argparse
 import numpy as np
-from operator import xor
+import sys
 from PyQt5 import QtWidgets
 
 boundaries = [
@@ -26,14 +26,21 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 
 def main(seperate, contour, fullscreen=False):
 
+    geometry = QtWidgets.QDesktopWidget().screenGeometry(-1)
     camera = cv2.VideoCapture(0)
+
+    if not camera.isOpened():
+        msg = QtWidgets.QMessageBox()
+        msg.setText("No camera found.  Is one connectd?")
+        msg.setWindowTitle("Error")
+        msg.exec_()
+        return
 
     # can you say unstable API?
     if hasattr(cv2, 'cv'):
         if fullscreen:
             cv2.namedWindow("images", cv2.cv.CV_WINDOW_NORMAL | cv2.cv.CV_WINDOW_KEEPRATIO)
             cv2.setWindowProperty("images", cv2.cv.CV_WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
-            geometry = QtWidgets.QDesktopWidget().screenGeometry(-1)
             cv2.resizeWindow("images", geometry.width(), geometry.height())
 
         camera.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 320)
@@ -42,7 +49,6 @@ def main(seperate, contour, fullscreen=False):
         if fullscreen:
             cv2.namedWindow("images", cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
             cv2.setWindowProperty("images", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-            geometry = QtWidgets.QDesktopWidget().screenGeometry(-1)
             cv2.resizeWindow("images", geometry.width(), geometry.height())
 
         camera.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
@@ -107,6 +113,7 @@ def main(seperate, contour, fullscreen=False):
 
 
 if __name__ == '__main__':
+    app = QtWidgets.QApplication(sys.argv)
     parser = argparse.ArgumentParser(description='Detect Colors.')
     parser.add_argument('-c', '--contour',
                         help='Show a contour around color mask',
