@@ -31,7 +31,7 @@ def main(seperate, contour, fullscreen=False):
 
     if not camera.isOpened():
         msg = QtWidgets.QMessageBox()
-        msg.setText("No camera found.  Is one connectd?")
+        msg.setText("No camera found.  Is one connected?")
         msg.setWindowTitle("Error")
         msg.exec_()
         return
