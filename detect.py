@@ -1,8 +1,23 @@
 #!/usr/bin/env python
 
 #
+# Microchip Machine Vision Demo Application
+#
+# Copyright (C) 2017 Microchip Technology Inc.  All rights reserved.
 # Joshua Henderson <joshua.henderson@microchip.com>
-# Detect colors from a camera and identify it once the mask is big enough.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
 import cv2
@@ -13,11 +28,11 @@ from PyQt5 import QtWidgets
 
 boundaries = [
     ([8.5, 100, 100], [23, 255, 255], "orange"),
-    ([30, 100, 100], [35, 255, 255], "yellow"), # 32
+    ([30, 100, 100], [35, 255, 255], "yellow"),
     ([97, 100, 100], [117, 255, 255], "blue"),
     ([57, 100, 100], [77, 255, 255], "green"),
     ([153, 100, 100], [173, 255, 255], "pink"),
-    ([24, 100, 100], [26, 255, 255], "dark yellow"), # 25
+    ([24, 100, 100], [26, 255, 255], "dark yellow"),
     ([0, 100, 100], [7, 255, 255], "red1"),
     ([175, 100, 100], [180, 255, 255], "red2"),
     ]
