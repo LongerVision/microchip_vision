@@ -5,8 +5,8 @@
     <published>2012-11-01T15:45:05Z</published>
     <updated>2012-11-01T15:45:05Z</updated>
     <author>Unknown</author>
-    <path exec="/opt/ApplicationLauncher/launch.sh" />
-    <arg>/opt/vision/detect.py -f -s</arg>
+    <path exec="/opt/ApplicationLauncher/launch-fork.sh" />
+    <arg>/opt/vision/vision.sh -f -s</arg>
     <description>Test Description</description>
     <link rel="enclosure" type="image/png" href="../../applications/resources/vision.png" />
 </entry>
